@@ -1,0 +1,31 @@
+# Node.js files
+node_modules/
+.tmp/
+
+# Build output
+dist/
+
+# Environment variables
+.env
+
+# Editor files and cache
+.vscode/
+.idea/
+
+# Test coverage reports
+coverage/
+
+# Compiled TypeScript files (if using separate output directory)
+src/**/*.js
+
+# ESLint and Prettier cache
+.eslintcache
+**/.prettierignore
+
+# Jest cache
+jest/cache.json
+
+# Optional: IDE-specific files
+# You can add patterns for other IDEs you might be using
+*.sublime-project
+*.sublime-workspace
