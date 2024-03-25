@@ -1,4 +1,5 @@
 import express from 'express';
+import { authenticator } from 'middlewares/auth';
 export default class BooksController {
   private router: express.Router;
   constructor() {
@@ -7,8 +8,11 @@ export default class BooksController {
   }
 
   initBooks() {
-    this.router.get('/books', (req, res) => {
-      res.status(200).send('Books route');
+    this.router.get('/books', authenticator, (req, res) => {
+      res.status(200).send({
+        message: 'Books route',
+        email: req.userEmail,
+      });
     });
   }
 

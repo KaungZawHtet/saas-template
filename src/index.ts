@@ -3,11 +3,13 @@ import * as dotenv from 'dotenv';
 import express from 'express';
 import BooksController from './controllers/books-controller';
 import NamesController from 'controllers/names-controller';
+import UsersController from 'controllers/users-controller';
 
 class Application {
   app: express.Express;
   booksController: BooksController;
   namesController: NamesController;
+  usersController: UsersController;
 
   constructor() {
     this.init();
@@ -26,8 +28,10 @@ class Application {
   setupControllers() {
     this.booksController = new BooksController();
     this.namesController = new NamesController();
+    this.usersController = new UsersController();
     this.app.use('/', this.booksController.assignRoutes());
     this.app.use('/', this.namesController.assignRoutes());
+    this.app.use('/', this.usersController.assignRoutes());
   }
 
   start() {
