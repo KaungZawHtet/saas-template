@@ -2,14 +2,63 @@ import users from 'db/user';
 import express from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import axios from 'axios';
 export default class UsersController {
   router: express.Router;
+  CLIENT_ID = process.env.GOOGLE_AUTH_CLIENT_ID;
+  CLIENT_SECRET = process.env.GOOGLE_AUTH_CLIENT_SECRET;
+  REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI;
+  url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${this.CLIENT_ID}&redirect_uri=${this.REDIRECT_URI}&response_type=code&scope=profile email`;
   constructor() {
     this.router = express.Router();
     this.initUsers();
   }
 
   initUsers() {
+    this.router.get('/google/auth', async (req, res) => {
+      res.redirect(this.url);
+    });
+
+    this.router.get('/google/auth-callback', async (req, res) => {
+      const { code } = req.query;
+      // Exchange authorization code for access token
+      const { data } = await axios.post('https://oauth2.googleapis.com/token', {
+        client_id: this.CLIENT_ID,
+        client_secret: this.CLIENT_SECRET,
+        code,
+        redirect_uri: this.REDIRECT_URI,
+        grant_type: 'authorization_code',
+      });
+
+      const { access_token, id_token } = data;
+
+      // Use access_token or id_token to fetch user profile
+      const { data: profile } = await axios.get('https://www.googleapis.com/oauth2/v1/userinfo', {
+        headers: { Authorization: `Bearer ${access_token}` },
+      });
+
+      let user = users.find((user) => user.email === profile.email);
+      if (!user) {
+        user = {
+          id: users.length + 1,
+          name: profile.name as string,
+          email: profile.email as string,
+          password: '',
+        };
+        users.push(user);
+      }
+      const token = jwt.sign({ userId: user.id, userEmail: user.email }, 'your-secret-key', {
+        expiresIn: '1h',
+      }); //stored as userId
+
+      // Code to handle user authentication and retrieval using the profile data
+
+      res.status(200).send({
+        data: profile,
+        token: token,
+      });
+    });
+
     this.router.post('/login', async (req, res) => {
       const email = req.body.email;
       const password = req.body.password;
