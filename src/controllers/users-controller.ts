@@ -47,7 +47,7 @@ export default class UsersController {
         };
         users.push(user);
       }
-      const token = jwt.sign({ userId: user.id, userEmail: user.email }, 'your-secret-key', {
+      const token = jwt.sign({ userId: user.id, userEmail: user.email }, process.env.JWT_SECRET, {
         expiresIn: '1h',
       }); //stored as userId
 
@@ -73,7 +73,7 @@ export default class UsersController {
         return res.status(401).send('Invalid password');
       }
 
-      const token = jwt.sign({ userId: user.id, userEmail: user.email }, 'your-secret-key', {
+      const token = jwt.sign({ userId: user.id, userEmail: user.email }, process.env.JWT_SECRET, {
         expiresIn: '1h',
       }); //stored as userId
       return res.status(200).json({
