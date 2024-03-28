@@ -3,8 +3,7 @@ import Mailgun from 'mailgun.js';
 import * as dotenv from 'dotenv';
 const mailgun = new Mailgun(FormData);
 dotenv.config();
-console.log('API KEY');
-console.log(process.env.MAILGUN_API_KEY);
+
 const mg = mailgun.client({ username: 'api', key: process.env.MAILGUN_API_KEY || 'abc' });
 export const confirmEmail = async (email: string, confirmationToken: string) => {
   await mg.messages

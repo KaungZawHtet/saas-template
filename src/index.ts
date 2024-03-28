@@ -1,14 +1,12 @@
 //Importing project dependancies that we installed earlier
 import * as dotenv from 'dotenv';
 import express from 'express';
-import BooksController from './controllers/books-controller';
-import NamesController from 'controllers/names-controller';
+import DemosController from './controllers/demos-controller';
 import UsersController from 'controllers/users-controller';
 
 class Application {
   app: express.Express;
-  booksController: BooksController;
-  namesController: NamesController;
+  demosController: DemosController;
   usersController: UsersController;
 
   constructor() {
@@ -21,17 +19,14 @@ class Application {
     dotenv.config();
     this.app = express();
     this.app.use(express.json());
-
   }
 
   initDb() {}
 
   setupControllers() {
-    this.booksController = new BooksController();
-    this.namesController = new NamesController();
+    this.demosController = new DemosController();
     this.usersController = new UsersController();
-    this.app.use('/', this.booksController.assignRoutes());
-    this.app.use('/', this.namesController.assignRoutes());
+    this.app.use('/', this.demosController.assignRoutes());
     this.app.use('/', this.usersController.assignRoutes());
   }
 

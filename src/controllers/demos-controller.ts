@@ -1,14 +1,14 @@
 import express from 'express';
 import { authenticator } from 'middlewares/auth';
-export default class BooksController {
+export default class DemosController {
   private router: express.Router;
   constructor() {
     this.router = express.Router();
-    this.initBooks();
+    this.initDemos();
   }
 
-  initBooks() {
-    this.router.get('/books', authenticator, (req, res) => {
+  initDemos() {
+    this.router.get('/demos', authenticator, (req, res) => {
       res.status(200).send({
         message: 'Books route',
         email: req.userEmail,
