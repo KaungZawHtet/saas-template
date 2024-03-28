@@ -1,4 +1,13 @@
-const users = [
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  password: string;
+  emailConfirmed?: boolean;
+  emailToken?: string;
+}
+
+export const users: User[] = [
   {
     id: 1,
     name: 'Alice',
@@ -12,5 +21,3 @@ const users = [
     password: 'fwfew',
   },
 ];
-
-export default users;

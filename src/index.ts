@@ -21,6 +21,7 @@ class Application {
     dotenv.config();
     this.app = express();
     this.app.use(express.json());
+
   }
 
   initDb() {}
