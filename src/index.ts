@@ -3,6 +3,8 @@ import * as dotenv from 'dotenv';
 import express from 'express';
 import DemosController from './controllers/demos-controller';
 import UsersController from 'controllers/users-controller';
+import 'reflect-metadata';
+import { AppDataSource } from 'data-source';
 
 class Application {
   app: express.Express;
@@ -11,7 +13,7 @@ class Application {
 
   constructor() {
     this.init();
-    this.initDb();
+
     this.setupControllers();
   }
 
@@ -21,8 +23,6 @@ class Application {
     this.app.use(express.json());
   }
 
-  initDb() {}
-
   setupControllers() {
     this.demosController = new DemosController();
     this.usersController = new UsersController();
@@ -31,9 +31,13 @@ class Application {
   }
 
   start() {
-    this.app.listen(3000, () => {
-      console.log('Server is running on port 3000');
-    });
+    AppDataSource.initialize()
+      .then(() => {
+        this.app.listen(process.env.PORT, () => {
+          console.log('Server is running on port 3000');
+        });
+      })
+      .catch((error) => console.log(error));
   }
 }
 
