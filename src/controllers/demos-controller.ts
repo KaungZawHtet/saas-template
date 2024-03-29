@@ -9,8 +9,10 @@ export default class DemosController {
 
   initDemos() {
     this.router.get('/demos', authenticator, (req, res) => {
+      //use this req.userEmail to access email from authenticator
       res.status(200).send({
         message: 'Books route',
+        // @ts-ignore
         email: req.userEmail,
       });
     });

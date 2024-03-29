@@ -16,7 +16,7 @@ export default class UsersController {
   private userRepository: UserRepository;
   constructor() {
     this.router = express.Router();
-    this.initUsers();
+    this.setupRoutes();
     this.userRepository = new UserRepository();
   }
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -162,7 +162,7 @@ export default class UsersController {
     }
   };
 
-  initUsers() {
+  setupRoutes() {
     this.router.get('/google/auth', this.apiGoogleAuth);
 
     this.router.get('/google/auth-callback', this.apiGoogleAuthCallback);

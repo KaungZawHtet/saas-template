@@ -12,7 +12,9 @@ export const authenticator = (req: Request, res: Response, next: NextFunction) =
     if (!decoded.userEmail) {
       return res.status(401).send('Access denied.');
     }
+    // @ts-ignore
     req.userId = decoded.userId;
+    // @ts-ignore
     req.userEmail = decoded.userEmail;
     next();
   } catch (error) {

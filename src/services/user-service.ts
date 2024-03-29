@@ -1,7 +1,9 @@
-import FormData from 'form-data';
-import Mailgun from 'mailgun.js';
 import * as dotenv from 'dotenv';
-const mailgun = new Mailgun(FormData);
+const formData = require('form-data');
+const Mailgun = require('mailgun.js');
+
+const mailgun = new Mailgun(formData);
+
 dotenv.config();
 
 const mg = mailgun.client({ username: 'api', key: process.env.MAILGUN_API_KEY || 'abc' });
