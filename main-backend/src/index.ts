@@ -5,11 +5,13 @@ import DemosController from './controllers/demos-controller';
 import UsersController from 'controllers/users-controller';
 import 'reflect-metadata';
 import { AppDataSource } from 'data-source';
+import RootController from 'controllers/root-controller';
 
 class Application {
   app: express.Express;
   demosController: DemosController;
   usersController: UsersController;
+  rootController: RootController;
 
   constructor() {
     this.init();
@@ -26,8 +28,10 @@ class Application {
   setupControllers() {
     this.demosController = new DemosController();
     this.usersController = new UsersController();
+    this.rootController = new RootController();
     this.app.use('/', this.demosController.assignRoutes());
     this.app.use('/', this.usersController.assignRoutes());
+    this.app.use('/', this.rootController.assignRoutes());
   }
 
   start() {
