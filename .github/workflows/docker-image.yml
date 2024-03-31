@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run:  cd main-backend & docker build . --file Dockerfile --tag saas-template-main-backend:$(date +%s)
+      run:  cd main-backend && docker build . --file Dockerfile --tag saas-template-main-backend:$(date +%s)
